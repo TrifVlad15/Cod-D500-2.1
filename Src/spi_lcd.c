@@ -2,7 +2,8 @@ pi lcd · C
 #include "main.h"
 #include "stm32wb55xx.h"
 #include "spi_lcd.h"
- 
+#include "delay.h"
+
 void lcd_cs_low(void)
 {
     GPIOA->BSRR = GPIO_BSRR_BR4; /* set PA4 low */
@@ -102,7 +103,7 @@ uint8_t spi1_transfer(uint8_t byte)
     return Data_Rg;
 }
  
-/* TODO (al tău): lcd_cmd(uint8_t c) și lcd_data(uint8_t d) */
+
 void lcd_cmd(uint8_t c)
 {
      LCD_DC_PORT->BSRR = (1UL << (LCD_DC_PIN + 16U));
@@ -113,4 +114,12 @@ void lcd_data(uint8_t d)
 {
      LCD_DC_PORT->BSRR = (1UL << (LCD_DC_PIN));
      spi1_transfer(d);
+}
+
+void lcd_reset(void)
+{
+    LCD_RES_PORT->BSRR = (1UL << (LCD_RES_PIN + 16U)); /* set low */
+    delay_ms(10); /* delay 10 ms */
+    LCD_RES_PORT->BSRR = (1UL << (LCD_RES_PIN)); /* set high */
+    delay_ms(10); /* delay 10 ms */
 }
