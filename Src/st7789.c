@@ -55,3 +55,4 @@ void st7789_window_set(uint16_t xs, uint16_t ys, uint16_t xe, uint16_t ye)
 
     lcd_cs_high(); /* stop conversation */
 }
+
