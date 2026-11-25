@@ -30,8 +30,8 @@ void st7789_init(void)
 
     lcd_bl_on();/*turn on the backlight*/
 }
-
-void st7789_window_set(uint16_t xs, uint16_t ys, uint16_t xe, uint16_t ye)
+ 
+uint16_t st7789_window_set(uint16_t xs, uint16_t ys, uint16_t xe, uint16_t ye, uint32_t *hi, uint32_t *lo)
 {
 
 
@@ -53,6 +53,22 @@ void st7789_window_set(uint16_t xs, uint16_t ys, uint16_t xe, uint16_t ye)
 
     lcd_cmd(0x2C); /*RAMWR-write to RAM*/
 
-    
+    *hi = (uint8_t)(xs >> 8)*(uint8_t)(xe & 0xFF); 
+    *lo = (uint8_t)(ys >> 8)*(uint8_t)(ye & 0xFF); 
+
 }
 
+void st7789_fill_screen(uint16_t color)
+{
+  lcd_cs_low(); /* start conversation */
+  uint8_t hi, lo;
+  st7789_window_set(0, 0, 239,239, &hi, &lo); /* set the window to the entire screen */
+  
+  for(uint32_t i =0; i<=(hi*lo); i++)
+  {
+    lcd_data((uint8_t)(color >> 8)); /* send high byte of color */
+    lcd_data((uint8_t)(color & 0xFF)); /* send low byte of color */
+  }
+  lcd_cs_high(); /* stop conversation */
+
+}
