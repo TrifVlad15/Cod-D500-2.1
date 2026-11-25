@@ -23,9 +23,15 @@ void lcd_cs_high(void);                 /* dose not listen*/
 uint8_t spi1_transfer(uint8_t byte);   /* trimite un octet, întoarce ce a primit */
 void lcd_cmd(uint8_t c);                /*DC low-cmd*/
 void lcd_data(uint8_t d);               /*DC high-value*/
- 
-#endif /* SPI_LCD_H */
+void lcd_reset(void);                   /*resetare display*/
+void lcd_bl_on(void);                    /*backlight on*/
+void lcd_bl_off(void);                   /*backlight off*/
+
+
 
 /*so i have separated the cs_low/high frm lcd_cmd/data because it s more efficient 
 to make the pin high one time and send the data u want, tahn to make it high and low 
 for each comand*/
+
+#endif /* SPI_LCD_H */
+

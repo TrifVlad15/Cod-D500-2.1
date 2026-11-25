@@ -123,3 +123,13 @@ void lcd_reset(void)
     LCD_RES_PORT->BSRR = (1UL << (LCD_RES_PIN)); /* set high */
     delay_ms(10); /* delay 10 ms */
 }
+
+void lcd_bl_on(void)
+{
+    LCD_BL_PORT->BSRR = (1UL << (LCD_BL_PIN)); /* set high */
+}
+
+void lcd_bl_off(void)
+{
+    LCD_BL_PORT->BSRR = (1UL << (LCD_BL_PIN + 16U)); /* set low */
+}
