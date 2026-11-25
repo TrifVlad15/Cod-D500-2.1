@@ -31,3 +31,27 @@ void st7789_init(void)
     lcd_bl_on();/*turn on the backlight*/
 }
 
+void st7789_window_set(uint16_t xs, uint16_t ys, uint16_t xe, uint16_t ye)
+{
+    lcd_cs_low(); /*now the ST7789 starts conversation*/
+
+    lcd_cmd(0x2A); /*CASET-column address set*/
+
+    lcd_data(xs >> 8); /* send high byte of xs */
+    lcd_data(xs & 0xFF); /* send low byte of xs */
+
+    lcd_data(xe >> 8); /* send high byte of xe */
+    lcd_data(xe & 0xFF); /* send low byte of xe */
+
+    lcd_cmd(0x2B); /*RASET-row address set*/
+
+    lcd_data(ys >> 8); /* send high byte of ys */
+    lcd_data(ys & 0xFF); /* send low byte of ys */
+
+    lcd_data(ye >> 8); /* send high byte of ye */
+    lcd_data(ye & 0xFF); /* send low byte of ye */
+
+    lcd_cmd(0x2C); /*RAMWR-write to RAM*/
+
+    lcd_cs_high(); /* stop conversation */
+}
